@@ -1,0 +1,795 @@
+@use "variables.scss";
+@use "fonts.scss";
+
+
+@use "form.scss";
+
+@use "main.scss";
+
+@use "income/income.scss";
+
+@use "expenses/expenses.scss";
+
+@use "operations/operations.scss";
+
+
+
+body {
+  background-color: variables.$main-bg-color;
+  font-family: 'Roboto', sans-serif;
+}
+
+.content-wrapper {
+  padding: 120px 60px;
+  width: 100vw;
+  overflow-y: scroll;
+
+}
+
+.big-title {
+  color: variables.$main-title-page-color;
+  font-family: 'RobotoMedium', sans-serif;
+  font-size: 40px;
+}
+
+.wrapper {
+  max-height: 100vh;
+
+  .layout-wrapper {
+    height: 100vh;
+    padding: 40px 20px;
+    border-right: 1px solid variables.$layout-border;
+    transition: all .3s ease;
+    //position: fixed;
+    //top: 0;
+    .layout {
+      &-image {
+        border-bottom: 1px solid variables.$layout-border;
+        margin: 0 -20px 60px;
+
+        img {
+          width: 98px;
+          margin: 0 0 20px 50px;
+        }
+      }
+
+      &-balance {
+        font-family: "RobotoMedium", sans-serif;
+        padding-bottom: 20px;
+        border-bottom: 1px solid variables.$layout-border;
+        margin: 0 -20px;
+
+        &-text {
+          color: variables.$main-title-page-color;
+          font-size: 14px;
+          line-height: 16px;
+          margin-bottom: 0;
+          margin-left: 20px;
+        }
+
+        &-link {
+          color: variables.$link-color;
+          text-decoration: none;
+          font-size: 14px;
+          line-height: 16px;
+          margin-left: 10px;
+        }
+      }
+
+      &-user {
+        margin-top: 20px;
+        cursor: pointer;
+
+        &-avatar {
+          width: 36px;
+          height: 36px;
+          background-color: variables.$avatar-bg;
+          border-radius: 50%;
+          margin-right: 16px;
+          color: variables.$svg-fill-color;
+        }
+
+        &-info {
+          margin-bottom: 0;
+          font-size: 14px;
+          line-height: 24px;
+          color: variables.$user-info-color;
+        }
+      }
+    }
+
+    .nav {
+      &-link {
+        color: variables.$main-title-page-color;
+        font-size: 14px;
+        line-height: 16px;
+        padding: 12px 11px 12px 16px;
+        text-align: unset;
+
+        &.active {
+          color: variables.$main-btn-text-color;
+        }
+
+        svg {
+          margin-right: 6px;
+        }
+
+        &:hover {
+          background-color: variables.$link-color;
+          color: variables.$main-btn-text-color;
+        }
+      }
+    }
+
+    .btn-toggle {
+      font-size: 14px;
+      line-height: 16px;
+      color: #052C65;
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      padding: 12px 16px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &:focus {
+        background-color: variables.$link-color;
+        color: variables.$main-btn-text-color;
+      }
+
+      &:hover {
+        background-color: variables.$link-color;
+        color: variables.$main-btn-text-color;
+      }
+
+      &-link {
+        font-size: 14px;
+        line-height: 16px;
+        color: #052C65;
+        font-family: "Roboto", sans-serif;
+      }
+
+      &-nav {
+        a:hover, a:focus {
+          background-color: variables.$link-color;
+          color: variables.$main-btn-text-color;
+        }
+      }
+
+      &::before {
+        content: none;
+      }
+
+      &::after {
+        width: 1.25em;
+        line-height: 0;
+        content: '\276F';
+        font-size: 20px;
+        transition: transform .35s ease;
+        transform-origin: .5em 50%;
+      }
+
+      &[aria-expanded="true"]::after {
+        transform: rotate(90deg);
+      }
+    }
+
+    .dropdown {
+      &-menu {
+        background-color: variables.$main-bg-color;
+        transition: .25s ease;
+
+        &:hover {
+          background-color: variables.$hover-color;
+
+          .dropdown-item {
+            color: variables.$hover-text-color;
+            background-color: transparent;
+          }
+        }
+      }
+
+      &-item {
+        color: variables.$user-info-color;
+      }
+    }
+  }
+}
+
+//Навигация на главной странице и доходы/расходы
+
+.nav-date {
+  .nav {
+    &-item {
+      border: 1px solid variables.$main-nav-colors;
+      border-radius: 5px;
+      margin-right: 20px;
+      width: 100px;
+      text-align: center;
+      box-sizing: border-box;
+      transition: .3s ease;
+
+      &:hover {
+        background-color: variables.$card-bg-hover;
+      }
+
+      .active {
+        background-color: variables.$main-nav-colors;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: variables.$card-bg-hover;
+          color: variables.$main-nav-colors;
+        }
+      }
+    }
+
+    &-link {
+      padding: 8px;
+      color: variables.$main-nav-colors;
+      font-family: "RobotoMedium", sans-serif;
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+}
+
+.navigate {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .nav-input {
+    &-date {
+      background-color: transparent;
+      border: 1px solid variables.$main-nav-colors;
+      border-radius: 5px;
+      padding: 6.5px 2px;
+      font-size: 16px;
+      line-height: 19px;
+      width: 110px;
+    }
+
+    &-text {
+      margin-right: 5px;
+      font-size: 16px;
+      line-height: 19px;
+      color: variables.$secondary-text-color;
+      font-family: "RobotoMedium", sans-serif;
+    }
+  }
+}
+
+
+//Карточки расходов/доходов
+
+.card {
+  box-sizing: border-box;
+  width: 352px;
+  border: 1px solid variables.$card-border;
+  transition: .3s ease;
+  background-color: transparent;
+
+  &:hover {
+    transform: scale(1.03);
+    background-color: variables.$card-bg-hover;
+  }
+
+  &-body {
+    padding: 20px;
+  }
+
+  &-title {
+    font-family: "RobotoMedium", sans-serif;
+    font-size: 28px;
+    line-height: 33px;
+    color: variables.$card-title-text;
+  }
+
+  &-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: "RobotoMedium", sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    padding: 11px 16px;
+
+    &:last-child {
+      margin-left: 10px;
+    }
+  }
+
+  &-plus {
+    text-align: center;
+    background-color: transparent;
+    transition: 0.3s ease;
+
+    &-link {
+      padding: 46px;
+    }
+
+    &-icon {
+      height: 29px;
+      fill: variables.$card-plus-color;
+    }
+  }
+}
+
+.modal {
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  &-dialog {
+    max-width: 530px;
+  }
+
+  &-content {
+    padding: 40px;
+    max-width: 540px;
+  }
+
+  &-body {
+    padding: 0;
+
+    p {
+      font-size: 20px;
+      line-height: 23px;
+      color: variables.$card-title-text;
+      margin: 0;
+    }
+  }
+
+  &-buttons {
+    margin-top: 20px;
+    text-align: center;
+
+    .mr12 {
+      margin-right: 12px;
+    }
+
+    .btn {
+      padding: 11px 16px;
+    }
+  }
+}
+
+// Создание категории расхода/дохода
+.create {
+  &-title {
+    margin-bottom: 40px;
+  }
+
+  &-input {
+    width: 397px;
+  }
+
+  &-actions {
+    margin-top: 20px;
+  }
+
+  &-btn {
+    padding: 11px 16px;
+    font-size: 14px;
+    line-height: 16px;
+    font-family: "RobotoMedium", sans-serif;
+    color: variables.$main-btn-text-color;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+//Редактирование категории расхода/дохода
+.edit {
+  &-title {
+    margin-bottom: 40px;
+  }
+
+  &-input {
+    width: 397px;
+  }
+
+  &-actions {
+    margin-top: 20px;
+  }
+
+  &-btn {
+    padding: 11px 16px;
+    font-size: 14px;
+    line-height: 16px;
+    font-family: "RobotoMedium", sans-serif;
+    color: variables.$main-btn-text-color;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+//Создание дохода/расхода
+.operations {
+  &-form {
+    max-width: 400px;
+
+    .form {
+      &-input {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+//Страница 404
+.page-not-found {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 18px;
+    color: variables.$main-title-page-color;
+
+    a {
+      font-family: 'RobotoBold', sans-serif;
+      color: variables.$link-color;
+      text-decoration: none;
+    }
+  }
+}
+
+//Бургер
+.burger {
+  display: none;
+  position: absolute;
+  right: 20px;
+  width: 30px;
+  height: 10px;
+  top: 30px;
+
+  span {
+    margin-bottom: 3px;
+    display: block;
+    width: 30px;
+    height: 2px;
+    background-color: variables.$burger-color;
+    transition: all .3s linear;
+
+    &:first-child {
+      transform: rotate(0deg);
+    }
+
+    &:nth-child(2) {
+      transform: rotate(0deg);
+    }
+
+    &:last-child {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    span {
+      &:first-child {
+        transform: rotate(-45deg);
+        position: relative;
+        top: 5px;
+      }
+
+      &:nth-child(2) {
+        transform: rotate(45deg);
+        position: relative;
+      }
+
+      &:last-child {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+//АДАПТИВНАЯ ВЕРСИЯ
+@media screen and (max-width: 1380px) {
+  .main {
+    .charts {
+      &-wrapper {
+        .main-line {
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1255px) {
+  .main {
+    .charts {
+      &-wrapper {
+        .chart {
+          width: 350px;
+        }
+
+        .main-line {
+          height: 310px;
+          top: 75px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1201px) {
+  .nav-date {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 1059px) {
+  .content-wrapper {
+    padding: 60px 30px;
+  }
+  .main {
+    .charts {
+      &-wrapper {
+        flex-direction: column;
+        align-items: center;
+
+        .chart {
+          width: 437px;
+        }
+
+        .main-line {
+          height: 1px;
+          width: 437px;
+          top: 0;
+          margin: 20px 0;
+        }
+      }
+    }
+
+    &-nav {
+      margin-bottom: 70px;
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .operations {
+    .table-wrapper {
+      .table {
+        thead {
+          display: none;
+        }
+        tr {
+          margin-bottom: 10px;
+          display: block;
+          border-bottom: 2px solid variables.$table-border
+        }
+        td {
+          display: block;
+          text-align: right;
+        }
+        td:before {
+          content: attr(data-label);
+          float: left;
+          color: variables.$table-title-color;
+          font-family: "RobotoBold", sans-serif;
+        }
+        &-icon {
+          &:first-child {
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .nav {
+    &-date {
+      .nav {
+        &-item {
+          width: 90px;
+        }
+
+        &-link {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .nav {
+    &-date {
+      .nav {
+        &-item {
+          width: 70px;
+          margin-right: 10px;
+        }
+
+        &-link {
+          font-size: 12px;
+          padding: 6px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 711px) {
+  .wrapper {
+    max-height: 100%;
+  }
+  .content-wrapper {
+    padding: 50px 10px;
+    display: flex;
+    justify-content: center;
+
+  }
+  .burger {
+    display: block;
+  }
+  .wrapper {
+    .layout-wrapper {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      background: variables.$main-bg-color;
+      left: -219px;
+      &.show {
+        left: 0;
+      }
+    }
+  }
+
+  .main {
+    &-title {
+      margin-bottom: 30px;
+    }
+
+    &-nav {
+      margin-bottom: 30px;
+    }
+  }
+  .nav-date {
+    margin-bottom: 0;
+  }
+}
+
+
+@media screen and (max-width: 682px) {
+  .nav-date {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .modal {
+    &-body {
+      p {
+        font-size: 14px;
+      }
+    }
+    &-buttons {
+      .btn {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .main {
+    .charts {
+      &-wrapper {
+        .chart {
+          width: 350px;
+        }
+
+        .main {
+          &-line {
+            width: 350px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .big-title {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 419px) {
+  .nav {
+    &-date {
+      display: flex;
+      flex-wrap: wrap;
+
+      .nav-item {
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .main {
+    .charts {
+      &-wrapper {
+        .chart {
+          width: 290px;
+        }
+
+        .main {
+          &-line {
+            width: 290px;
+          }
+        }
+      }
+    }
+  }
+  .operations {
+    .table {
+      td {
+        font-size: 14px;
+      }
+    }
+  }
+  .modal {
+    &-content {
+      padding: 20px;
+    }
+    &-body {
+      p {
+        text-align: center;
+      }
+    }
+  }
+  .create {
+    &-title {
+      font-size: 28px;
+    }
+    &-input {
+      width: 290px;
+    }
+  }
+  .edit {
+    &-title {
+      font-size: 28px;
+    }
+    &-input {
+      width: 290px;
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .form {
+    &-title {
+      font-size: 32px;
+    }
+  }
+  .card {
+    &-wrapper {
+      justify-content: center;
+      .card {
+        width: 300px;
+      }
+    }
+  }
+}

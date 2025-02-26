@@ -1,0 +1,35 @@
+<div class="operations-create ">
+	<h1 class="big-title operations-title">Создание дохода/расхода</h1>
+	<form class="operations-form">
+		<div class="form-input">
+			<select class="form-select" aria-label="Default select example">
+				<option value="income">Доход</option>
+				<option value="expenses">Расход</option>
+			</select>
+		</div>
+		<div class="form-input">
+			<select class="form-select" aria-label="Default select example">
+				<option value="salary">Зарплата</option>
+			</select>
+		</div>
+		<div class="form-input">
+			<input type="text" class="form-control is-invalid" id="amountInput" aria-describedby="sumInputFeedback"
+				   required
+				   placeholder="Сумма в $" required>
+			<div id="sumInputFeedback" class="invalid-feedback">Введите сумму!</div>
+		</div>
+
+		<div class="form-input">
+			<input type="date" class="form-control" id="dateInput"
+				   aria-describedby="dateInputFeedback" required>
+			<div id="dateInputFeedback" class="invalid-feedback">Выберите дату</div>
+		</div>
+		<div class="form-input">
+			<input type="text" class="form-control" id="validationServer03" placeholder="Комментарий">
+		</div>
+		<div class="operations-actions">
+			<a href="/operations/create?id=" class="btn btn-success edit-btn" id="create-income">Создать</a>
+			<a href="/operations" class="btn btn-danger edit-btn" id="create-expense">Отмена</a>
+		</div>
+	</form>
+</div>
