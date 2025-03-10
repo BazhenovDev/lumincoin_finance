@@ -13,11 +13,11 @@
     margin-bottom: 20px;
   }
   &-body {
-    max-width: 397px;
+    width: 397px;
   }
   .input-group {
     margin-bottom: 10px;
-    max-width: 397px;
+    max-width: 100%;
     &-text {
       background-color: variables.$input-icon-bg-color;
     }

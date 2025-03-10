@@ -1,7 +1,6 @@
 @use "variables.scss";
 @use "fonts.scss";
 
-
 @use "form.scss";
 
 @use "main.scss";
@@ -11,7 +10,6 @@
 @use "expenses/expenses.scss";
 
 @use "operations/operations.scss";
-
 
 
 body {
@@ -32,6 +30,7 @@ body {
   font-size: 40px;
 }
 
+
 .wrapper {
   max-height: 100vh;
 
@@ -40,6 +39,7 @@ body {
     padding: 40px 20px;
     border-right: 1px solid variables.$layout-border;
     transition: all .3s ease;
+    max-width: 219px;
     //position: fixed;
     //top: 0;
     .layout {
@@ -148,6 +148,10 @@ body {
         line-height: 16px;
         color: #052C65;
         font-family: "Roboto", sans-serif;
+        &.active {
+          background-color: variables.$link-color;
+          color: variables.$main-btn-text-color;
+        }
       }
 
       &-nav {
@@ -346,6 +350,9 @@ body {
       line-height: 23px;
       color: variables.$card-title-text;
       margin: 0;
+      &:last-child {
+        margin-bottom: 30px;
+      }
     }
   }
 
@@ -500,6 +507,40 @@ body {
   }
 }
 
+.custom-modal {
+  width: 100vw;
+  min-height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: variables.$custom-modal-bg;
+  overflow: hidden;
+  .modal {
+    &-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: variables.$main-bg-color;
+      padding: 30px 70px;
+      border-radius: 50px;
+    }
+    &-text {
+      text-align: center;
+      font-size: 14px;
+      color: variables.$secondary-text-color;
+      p {
+        margin-bottom: 10px;
+      }
+    }
+    &-btn {
+      width: 150px;
+    }
+  }
+  .show {
+    display: flex;
+  }
+}
+
 //АДАПТИВНАЯ ВЕРСИЯ
 @media screen and (max-width: 1380px) {
   .main {
@@ -572,21 +613,25 @@ body {
         thead {
           display: none;
         }
+
         tr {
           margin-bottom: 10px;
           display: block;
           border-bottom: 2px solid variables.$table-border
         }
+
         td {
           display: block;
           text-align: right;
         }
+
         td:before {
           content: attr(data-label);
           float: left;
           color: variables.$table-title-color;
           font-family: "RobotoBold", sans-serif;
         }
+
         &-icon {
           &:first-child {
             margin-right: 20px;
@@ -651,6 +696,7 @@ body {
       z-index: 10;
       background: variables.$main-bg-color;
       left: -219px;
+
       &.show {
         left: 0;
       }
@@ -685,6 +731,7 @@ body {
         font-size: 14px;
       }
     }
+
     &-buttons {
       .btn {
         font-size: 12px;
@@ -714,6 +761,14 @@ body {
 @media screen and (max-width: 460px) {
   .big-title {
     font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .form {
+    &-body {
+      width: 360px;
+    }
   }
 }
 
@@ -754,6 +809,7 @@ body {
     &-content {
       padding: 20px;
     }
+
     &-body {
       p {
         text-align: center;
@@ -764,6 +820,7 @@ body {
     &-title {
       font-size: 28px;
     }
+
     &-input {
       width: 290px;
     }
@@ -772,8 +829,17 @@ body {
     &-title {
       font-size: 28px;
     }
+
     &-input {
       width: 290px;
+    }
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .form {
+    &-body {
+      width: 330px;
     }
   }
 }
@@ -787,9 +853,26 @@ body {
   .card {
     &-wrapper {
       justify-content: center;
+
       .card {
         width: 300px;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .form {
+    &-body {
+      width: 310px;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .form {
+    &-body {
+      width: 280px;
     }
   }
 }

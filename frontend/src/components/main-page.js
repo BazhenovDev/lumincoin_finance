@@ -1,4 +1,5 @@
 import {Chart} from "chart.js/auto";
+import {HttpUtils} from "../utils/http-utils";
 
 export class MainPage {
     constructor() {
@@ -8,8 +9,6 @@ export class MainPage {
 
     incomesChart() {
         const incomesChartElement = document.getElementById('incomesChart');
-        // incomesChartElement.parentNode.style.height = '467px';
-        // incomesChartElement.parentNode.style.width = '437px';
 
         new Chart(incomesChartElement, {
             type: 'pie',
@@ -21,7 +20,8 @@ export class MainPage {
                 }]
             },
             options: {
-                // responsive: true,
+                responsive: true,
+                maintainAspectRatio: false,
                 color: 'black',
                 plugins: {
                     legend: {
@@ -32,7 +32,6 @@ export class MainPage {
                                 family: 'RobotoMedium',
                             },
                             boxWidth: 35,
-                            padding: 15
                         },
                     },
                     title: {
@@ -45,20 +44,12 @@ export class MainPage {
                         }
                     },
                 },
-                // layout: {
-                //     padding: {
-                //         left: -10,
-                //         right: -10
-                //     }
-                // }
             },
         });
     }
 
     expenseChart() {
         const expenseChartElement = document.getElementById('expenseChart');
-        // expenseChartElement.parentNode.style.height = '467px';
-        // expenseChartElement.parentNode.style.width = '437px';
 
         new Chart(expenseChartElement, {
             type: 'pie',
@@ -70,7 +61,8 @@ export class MainPage {
                 }]
             },
             options: {
-                // responsive: true,
+                responsive: true,
+                maintainAspectRatio: false,
                 color: 'black',
                 plugins: {
                     legend: {
@@ -81,7 +73,6 @@ export class MainPage {
                                 family: 'RobotoMedium',
                             },
                             boxWidth: 35,
-                            padding: 15
                         },
                     },
                     title: {
@@ -94,13 +85,9 @@ export class MainPage {
                         }
                     },
                 },
-                // layout: {
-                    // padding: {
-                    //     left: -10,
-                    //     right: -10
-                    // }
-                // }
             },
         });
     }
+
+
 }
