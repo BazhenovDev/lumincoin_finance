@@ -38,6 +38,7 @@ module.exports = {
             patterns: [
                 {from: "./src/templates", to: "templates"},
                 {from: "./src/static", to: "static"},
+                {from: "./src/static/fonts", to: "static/fonts"},
                 {from: "./node_modules/bootstrap/dist/css/bootstrap.min.css", to: "styles"},
                 {from: "./src/bootstrap-5.2.3-examples/bootstrap-5.2.3-examples/sidebars/sidebars.css", to: "styles"},
                 {from: "./node_modules/bootstrap/dist/js/bootstrap.min.js", to: "scripts"},
