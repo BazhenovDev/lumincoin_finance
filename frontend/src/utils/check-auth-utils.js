@@ -1,6 +1,6 @@
 import {AuthUtils} from "./auth-utils.js";
 
-export class CheckAuth {
+export class CheckAuthUtils {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
         this.init();
@@ -10,17 +10,14 @@ export class CheckAuth {
         let result = true;
 
         const accessToken = AuthUtils.getUserInfo(AuthUtils.accessTokenKey);
-        console.log(accessToken)
         const refreshToken = AuthUtils.getUserInfo(AuthUtils.refreshTokenKey);
-        console.log(refreshToken)
 
         if (!accessToken || !refreshToken) {
-           result = false
+           result = false;
         }
 
         if (!result) {
           return this.openNewRoute('/login');
         }
-
     }
 }

@@ -1,30 +1,30 @@
 import {HttpUtils} from "../../utils/http-utils";
 
-export class ExpensesEdit {
+export class IncomesEdit {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
         const url = new URLSearchParams(window.location.search);
-        const expenseId = url.get('id');
+        const incomeId = url.get('id');
 
-        if (!expenseId) {
-            return this.openNewRoute('/expenses');
+        if (!incomeId) {
+            return this.openNewRoute('/income');
         }
 
-        this.inputNameElement = document.getElementById('expenses-create');
+        this.inputNameElement = document.getElementById('income-create');
 
-        this.getExpense(expenseId).then();
+        this.getIncome(incomeId).then();
 
         document.getElementById('edit-btn').addEventListener('click', this.update.bind(this));
         document.getElementById('cancel-btn').addEventListener('click', () => {
-            this.inputNameElement.value = this.getExpenseResult.title;
-            this.openNewRoute('/expenses');
+            this.inputNameElement.value = this.getIncomeResult.title;
+            this.openNewRoute('/income');
         });
 
     }
 
-    async getExpense(id) {
-        const result = await HttpUtils.request(`/categories/expense/${id}`);
+    async getIncome(id) {
+        const result = await HttpUtils.request(`/categories/income/${id}`);
 
         if (result.redirect) {
            return this.openNewRoute(result.redirect);
@@ -38,7 +38,7 @@ export class ExpensesEdit {
             console.log('Произошла ошибка запроса расхода');
         }
 
-        this.getExpenseResult = result.response;
+        this.getIncomeResult = result.response;
     }
 
     validateForm() {
@@ -57,14 +57,14 @@ export class ExpensesEdit {
         e.preventDefault();
 
         if (this.validateForm()) {
-            if (this.inputNameElement.value !== this.getExpenseResult.title) {
-                const result = await HttpUtils.request(`/categories/expense/${this.getExpenseResult.id}`, 'PUT', true, {
+            if (this.inputNameElement.value !== this.getIncomeResult.title) {
+                const result = await HttpUtils.request(`/categories/income/${this.getIncomeResult.id}`, 'PUT', true, {
                     title: this.inputNameElement.value
                 });
 
                 if (result.response && !result.error) {
                     console.log('Название категории успешно обновилось');
-                    return this.openNewRoute('/expenses');
+                    return this.openNewRoute('/income');
                 }
 
                 if (result.error || !result.response || (result.response && result.response.error)) {

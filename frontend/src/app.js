@@ -1,4 +1,4 @@
-import "./styles/styles.scss";
+import "./styles/index.scss";
 import {Router} from "./router.js";
 
 class App {

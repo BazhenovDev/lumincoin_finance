@@ -5,7 +5,7 @@ export class LoginPage {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
-        if (localStorage.getItem('accessToken')) {
+        if (AuthUtils.getUserInfo(AuthUtils.accessTokenKey)) {
             return this.openNewRoute('/');
         }
 
@@ -38,20 +38,6 @@ export class LoginPage {
         let result = null;
 
         if (!error) {
-            // try {
-            //     const response = await fetch(`${config.host}/login`, {
-            //         method: "POST", headers: {
-            //             'Content-type': 'application/json', 'Accept': 'application/json',
-            //         }, body: JSON.stringify({
-            //             email: this.emailInputElement.value,
-            //             password: this.passwordInputElement.value,
-            //             rememberMe: this.rememberMeElement.checked
-            //         })
-            //     });
-            //     result = await response.json();
-            // } catch (e) {
-            //     console.log(e.message)
-            // }
             result = await HttpUtils.request('/login', 'POST', false, {
                 email: this.emailInputElement.value,
                 password: this.passwordInputElement.value,
@@ -60,13 +46,6 @@ export class LoginPage {
         }
 
         if (result && result.response.tokens && result.response.user) {
-            // localStorage.setItem('accessToken', result.tokens.accessToken);
-            // localStorage.setItem('refreshToken', result.tokens.refreshToken);
-            // localStorage.setItem('userInfo', JSON.stringify({
-            //     name: result.user.name,
-            //     lastName: result.user.lastName,
-            //     id: result.user.id,
-            // }));
             AuthUtils.setUserInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {
                 name: result.response.user.name,
                 lastName: result.response.user.lastName,

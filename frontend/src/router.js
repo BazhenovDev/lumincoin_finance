@@ -1,10 +1,22 @@
 import {MainPage} from "./components/main-page.js";
 import {LoginPage} from "./components/auth/login-page.js";
-import {IncomePage} from "./components/incomes/income-page.js";
+import {IncomeList} from "./components/incomes/income-list.js";
 import {LogoutPage} from "./components/auth/logout-page.js";
 import {SignupPage} from "./components/auth/signup-page.js";
 import {AuthUtils} from "./utils/auth-utils.js";
 import {HttpUtils} from "./utils/http-utils.js";
+import {CheckAuthUtils} from "./utils/check-auth-utils.js";
+import {ExpensesList} from "./components/expenses/expenses-list";
+import {ExpensesEdit} from "./components/expenses/expenses-edit";
+import {ExpensesDelete} from "./components/expenses/expenses-delete";
+import {ExpensesCreate} from "./components/expenses/expenses-create";
+import {IncomesCreate} from "./components/incomes/incomes-create";
+import {IncomesEdit} from "./components/incomes/income-edit";
+import {IncomeDelete} from "./components/incomes/incomes-delete";
+import {OperationsList} from "./components/operations/operations-list";
+import {OperationsCreate} from "./components/operations/operations-create";
+import {OperationsEdit} from "./components/operations/operations-edit";
+import {OperationsDelete} from "./components/operations/operations-delete";
 
 export class Router {
     constructor() {
@@ -20,7 +32,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/main.html',
                 layout: '/templates/layout.html',
                 load: () => {
-                    new MainPage();
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new MainPage(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -56,7 +69,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/incomes/income.html',
                 layout: '/templates/layout.html',
                 load: () => {
-                    new IncomePage();
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new IncomeList();
                 },
             },
             {
@@ -65,7 +79,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/incomes/income-create.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new IncomesCreate(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -74,7 +89,15 @@ export class Router {
                 filePathTemplate: '/templates/pages/incomes/income-edit.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new IncomesEdit(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/income/delete',
+                load: () => {
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new IncomeDelete(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -83,7 +106,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/expenses/expenses.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new ExpensesList(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -92,7 +116,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/expenses/expenses-create.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new ExpensesCreate(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -101,7 +126,15 @@ export class Router {
                 filePathTemplate: '/templates/pages/expenses/expenses-edit.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new ExpensesEdit(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/expenses/delete',
+                load: () => {
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new ExpensesDelete(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -110,7 +143,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/operations/operations.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new OperationsList(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -119,7 +153,8 @@ export class Router {
                 filePathTemplate: '/templates/pages/operations/operations-create.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new OperationsCreate(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -128,7 +163,14 @@ export class Router {
                 filePathTemplate: '/templates/pages/operations/operations-edit.html',
                 layout: '/templates/layout.html',
                 load: () => {
-
+                    new CheckAuthUtils(this.openNewRoute.bind(this));
+                    new OperationsEdit(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/operations/delete',
+                load: () => {
+                    new OperationsDelete(this.openNewRoute.bind(this));
                 },
             },
         ];
@@ -177,7 +219,6 @@ export class Router {
         if (currentRoute) {
             this.titlePageElement.innerText = `${currentRoute.title} | Lumincoin Finance`
             if (currentRoute.layout) {
-
                 this.contentPageElement.innerHTML = await fetch(currentRoute.layout)
                     .then(response => response.text());
                 document.getElementById('content-wrapper').innerHTML = await fetch(currentRoute.filePathTemplate)
@@ -193,25 +234,18 @@ export class Router {
 
                 this.showCollapse();
 
-                const userBalance = await HttpUtils.request('/balance');
+                this.showBalance().then();
 
-                if (userBalance && !userBalance.redirect) {
-                    document.getElementById('layout-balance-sum').innerText = userBalance.response.balance;
-                } else {
-                    return this.openNewRoute(userBalance.redirect);
-                }
                 const userInfo = AuthUtils.getUserInfo(AuthUtils.userInfoKey);
 
-                if (!userInfo.name || !userInfo.lastName) {
-                    return;
+                if (!userInfo) {
+                    AuthUtils.removeUserInfo();
                 } else {
                     document.querySelector('.layout-user-name').innerText = `${userInfo.name} ${userInfo.lastName}`
                     document.getElementById('user-label').addEventListener('click', () => {
                         document.getElementById('dropdown-logout').classList.toggle('show');
                     });
                 }
-
-
             } else {
                 this.contentPageElement.innerHTML = await fetch(currentRoute.filePathTemplate)
                     .then(response => response.text())
@@ -230,12 +264,6 @@ export class Router {
     activateMenuLink(currentRoute) {
         const linksMenu = document.querySelectorAll('.menu-links .nav-link');
         linksMenu.forEach(link => {
-           //  const firstHref = window.location.pathname.split('/')[1]
-           // if (link.href.replace(window.location.origin, '') === `/${firstHref}`) {
-           //     link.classList.add('active')
-           // } else {
-           //     link.classList.remove('active')
-           // }
 
             const href = link.getAttribute('href');
             if ((currentRoute.route.includes(href) && href !== '/') || (currentRoute.route === '/' && href === '/')) {
@@ -260,28 +288,88 @@ export class Router {
     showCollapse() {
         const collapseButton = document.getElementById('collapse-button');
         const collapseDashboard = document.getElementById('dashboard-collapse');
+        collapseDashboard.style.transition = 'all .25s';
+
 
         let booleanToggleForArrow = true;
 
         const currentPath = window.location.href.replace(window.location.origin, '');
         if (currentPath.includes('/expenses') || currentPath.includes('/income')) {
             collapseButton.setAttribute('aria-expanded', booleanToggleForArrow);
+            collapseDashboard.style.opacity = '1';
             collapseDashboard.style.display = 'block';
         }
 
         collapseButton.addEventListener('click', () => {
             collapseButton.setAttribute('aria-expanded', booleanToggleForArrow);
             if (booleanToggleForArrow) {
-                // collapseDashboard.classList.add('show');
-                // collapseButton.classList.remove('collapsed');
-                collapseDashboard.style.display = 'block';
+                collapseDashboard.style.opacity = '1';
             } else {
-                // collapseDashboard.classList.remove('show');
-                // collapseButton.classList.add('collapsed');
-                collapseDashboard.style.display = 'none';
+                collapseDashboard.style.opacity = '0';
             }
             booleanToggleForArrow = !booleanToggleForArrow;
         });
+    }
+
+    async showBalance() {
+        const result = await HttpUtils.request('/balance');
+        if (result.response && !result.redirect) {
+            this.balance = result.response.balance
+            this.balanceSum = document.getElementById('layout-balance-sum');
+            this.balanceSumInPopup = document.getElementById('balance-popup');
+            this.balanceSum.innerText = this.balance.toString();
+            this.balanceSumInPopup.value = this.balance;
+        } else {
+            return this.openNewRoute(result.redirect);
+        }
+        this.showBalancePopup();
+    }
+
+
+
+    // Работа с балансом
+    showBalancePopup() {
+        this.balancePopupWindow = document.querySelector('.balance-popup');
+        this.balanceSum.addEventListener('click', () => {
+            this.balancePopupWindow.style.display = 'flex';
+        });
+        document.getElementById('balance-btn').addEventListener('click', this.changeBalance.bind(this));
+    }
+
+    validateBalance() {
+        let result = true;
+        this.balanceError = document.querySelector('.balance-popup-error');
+
+        if (this.balanceSumInPopup.value) {
+            this.balanceError.style.display = 'none';
+        } else {
+            this.balanceError.style.display = 'block';
+            result = false;
+        }
+        return result;
+    }
+
+   async changeBalance() {
+        if (this.validateBalance()) {
+            if (+this.balanceSumInPopup.value !== +this.balance) {
+                const result = await HttpUtils.request('/balance', 'PUT', true, {
+                    newBalance: this.balanceSumInPopup.value
+                });
+
+                if (result.response && result.response.balance && !result.error && !result.response.error) {
+                    console.log('Баланс успешно обновился');
+                    this.balanceSum.innerText = result.response.balance;
+                    // Перезаписываем this.balance, для того, чтобы постоянно не отправлялся PUT запрос, даже если баланс не изменялся
+                    this.balance = result.response.balance;
+                }
+
+                if (result.response && result.error || (result.response && result.response.error)) {
+                    console.log('Баланс не получилось обновить, попробуйте позже');
+                }
+            }
+
+            this.balancePopupWindow.style.display = 'none';
+        }
     }
 
 }

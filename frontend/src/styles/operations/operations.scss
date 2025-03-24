@@ -1,4 +1,4 @@
-@use "../variables.scss";
+@use "../shared/variables.scss";
 
 .operations {
   &-title {
@@ -49,6 +49,9 @@
       transition: fill .2s ease;
       :hover {
         fill: variables.$table-icon-hover-fill;
+      }
+      &:first-child {
+        margin-right: 5px;
       }
     }
   }

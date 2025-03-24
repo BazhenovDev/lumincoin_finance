@@ -56,17 +56,6 @@ export class HttpUtils {
                 } else {
                     result.redirect = '/login';
                 }
-                // if (!accessToken) {
-                //     result.redirect = '/login';
-                // } else {
-                //     const updateRefreshToken = await AuthUtils.updateTokensWithRefresh()
-                //
-                //     if (updateRefreshToken) {
-                //         return this.request(url, method, authToken, body);
-                //     } else {
-                //         result.redirect = '/login';
-                //     }
-                // }
             }
         }
         return result;

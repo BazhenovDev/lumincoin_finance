@@ -2,21 +2,19 @@
 	<h1 class="big-title operations-title">Создание дохода/расхода</h1>
 	<form class="operations-form">
 		<div class="form-input">
-			<select class="form-select" aria-label="Default select example">
+			<select class="form-select" aria-label="Default select example" id="form-select-type">
 				<option value="income">Доход</option>
-				<option value="expenses">Расход</option>
+				<option value="expense">Расход</option>
 			</select>
 		</div>
 		<div class="form-input">
-			<select class="form-select" aria-label="Default select example">
-				<option value="salary">Зарплата</option>
+			<select class="form-select" aria-label="Default select example" id="form-select-category">
 			</select>
 		</div>
 		<div class="form-input">
-			<input type="text" class="form-control is-invalid" id="amountInput" aria-describedby="sumInputFeedback"
-				   required
+			<input type="number" class="form-control" id="amountInput" aria-describedby="sumInputFeedback"
 				   placeholder="Сумма в $" required>
-			<div id="sumInputFeedback" class="invalid-feedback">Введите сумму!</div>
+			<div id="sumInputFeedback" class="invalid-feedback">Введите сумму</div>
 		</div>
 
 		<div class="form-input">
@@ -25,11 +23,14 @@
 			<div id="dateInputFeedback" class="invalid-feedback">Выберите дату</div>
 		</div>
 		<div class="form-input">
-			<input type="text" class="form-control" id="validationServer03" placeholder="Комментарий">
+			<input type="text" class="form-control" id="commentInput" aria-describedby="commentInputFeedback" placeholder="Комментарий">
+			<div id="commentInputFeedback" class="invalid-feedback">Укажите комментарий</div>
 		</div>
 		<div class="operations-actions">
-			<a href="/operations/create?id=" class="btn btn-success edit-btn" id="create-income">Создать</a>
-			<a href="/operations" class="btn btn-danger edit-btn" id="create-expense">Отмена</a>
+			<button class="btn btn-success edit-btn" id="create-operation">Создать</button>
+			<button class="btn btn-danger edit-btn" id="cancel">Отмена</button>
+<!--			<a href="#" class="btn btn-success edit-btn" id="create-operation">Создать</a>-->
+<!--			<a href="#" class="btn btn-danger edit-btn" id="cancel">Отмена</a>-->
 		</div>
 	</form>
 </div>
