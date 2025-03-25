@@ -5,12 +5,12 @@ export class SignupPage {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
-        if (localStorage.getItem('accessToken')) {
+        if (AuthUtils.getUserInfo(AuthUtils.accessTokenKey)) {
             return this.openNewRoute('/');
         }
 
         this.nameInputElement = document.getElementById('name-form');
-        this.lastNameInputElement = document.getElementById('lastName-form');
+        // this.lastNameInputElement = document.getElementById('lastName-form');
         this.emailInputElement = document.getElementById('email-form');
         this.passwordInputElement = document.getElementById('password-form');
         this.confirmPasswordInputElement = document.getElementById('confirm-password-form');
@@ -22,20 +22,12 @@ export class SignupPage {
     async signup() {
 
         let error = false;
-        if (!this.nameInputElement.value.match(/^[А-Я]+[а-ёяА-ЯЁ\s*]+?$/)) {
+        if (!this.nameInputElement.value.match(/^[А-Я]{1}[а-яё]+\s+[А-Я]{1}[а-яё]+\s*/)) {
             this.nameInputElement.classList.add('is-invalid');
             error = true;
         } else {
             this.nameInputElement.classList.remove('is-invalid');
             this.nameInputElement.classList.add('is-valid');
-        }
-
-        if (!this.lastNameInputElement.value.match(/^[А-Я]+[а-ёяА-ЯЁ\s*]+?$/)) {
-            this.lastNameInputElement.classList.add('is-invalid');
-            error = true;
-        } else {
-            this.lastNameInputElement.classList.remove('is-invalid');
-            this.lastNameInputElement.classList.add('is-valid');
         }
 
         if (!this.emailInputElement.value.match(/[a-zA-Z0-9_\.-]+@[a-zA-Z0-9_\.-]+\.[a-zA-Z0-9_\.-]+/)) {
@@ -63,68 +55,16 @@ export class SignupPage {
             this.confirmPasswordInputElement.classList.add('is-valid');
         }
 
-        // let resultSignUp = null;
-
-        // if (!error) {
-        //     //     try {
-        //     //         const response = await fetch(`${config.host}/signup`, {
-        //     //             method: 'POST',
-        //     //             headers: {
-        //     //                 'Content-Type': 'Application/json',
-        //     //                 'Accept': 'Application/json',
-        //     //             },
-        //     //             body: JSON.stringify({
-        //     //                 name: this.nameInputElement.value,
-        //     //                 lastName: this.lastNameInputElement.value,
-        //     //                 email: this.emailInputElement.value,
-        //     //                 password: this.passwordInputElement.value,
-        //     //                 passwordRepeat: this.confirmPasswordInputElement.value
-        //     //             })
-        //     //         });
-        //     //         resultSignUp = await response.json();
-        //     //     } catch (e) {
-        //     //         console.log(e.message)
-        //     //     }
-        //     // }
-        //
-        //     // if (resultSignUp && resultSignUp.user && resultSignUp.user.email && resultSignUp.user.name && resultSignUp.user.lastName && resultSignUp.user.id && !resultSignUp.error) {
-        //     //
-        //     //     // try {
-        //     //     //     const response = await fetch(`${config.host}/login`, {
-        //     //     //         method: "POST", headers: {
-        //     //     //             'Content-type': 'application/json', 'Accept': 'application/json',
-        //     //     //         }, body: JSON.stringify({
-        //     //     //             email: this.emailInputElement.value,
-        //     //     //             password: this.passwordInputElement.value,
-        //     //     //             rememberMe: false
-        //     //     //         })
-        //     //     //     });
-        //     //     //     resultLogIn = await response.json();
-        //     //     // } catch (e) {
-        //     //     //     console.log(e.message)
-        //     //     // }
-        //     //
-        //     //     if (resultLogIn && resultLogIn.tokens && resultLogIn.user) {
-        //     //         // localStorage.setItem('accessToken', resultLogIn.tokens.accessToken);
-        //     //         // localStorage.setItem('refreshToken', resultLogIn.tokens.refreshToken);
-        //     //         // localStorage.setItem('userInfo', JSON.stringify({
-        //     //         //     name: resultLogIn.user.name,
-        //     //         //     lastName: resultLogIn.user.lastName,
-        //     //         //     id: resultLogIn.user.id,
-        //     //         // }));
-        //     //
-        //     //
-        //     //         // return this.openNewRoute('/');
-        //     //     }
-        //     // }
-        //
-        // }
-
         if (!error) {
 
+            const fullName = this.nameInputElement.value.split(' ');
+
+            const name = fullName[0];
+            const lastName = fullName[1];
+
             const resultSignUp = await HttpUtils.request('/signup', 'POST', false, {
-                name: this.nameInputElement.value,
-                lastName: this.lastNameInputElement.value,
+                name: name,
+                lastName: lastName,
                 email: this.emailInputElement.value,
                 password: this.passwordInputElement.value,
                 passwordRepeat: this.confirmPasswordInputElement.value
@@ -148,7 +88,17 @@ export class SignupPage {
                     this.modal = document.getElementById('custom-modal');
                     this.modalText = document.getElementById('modal-text');
                     this.modalBtn = document.getElementById('custom-modal-btn');
-                    if (resultSignUp.response.message.toLowerCase() === 'user with given email already exist') {
+
+                    if (!lastName) {
+                        this.modalText.innerHTML = `<p>Необходимо ввести Фамилию после имени в стоке ФИО</p>`;
+                        this.modal.style.display = 'flex';
+                        this.nameInputElement.classList.remove('is-valid');
+                        this.nameInputElement.classList.add('is-invalid');
+                        this.modalBtn.addEventListener('click', () => {
+                            this.modal.style.display = 'none';
+                        })
+                        return;
+                    } else if (resultSignUp.response.message.toLowerCase() === 'user with given email already exist') {
                         this.modalText.innerHTML = `<p>Пользователь с таким e-mail уже существует</p>`;
                         this.emailValidText.innerText = 'Пользователь с таким e-mail уже существует';
                         this.emailInputElement.classList.remove('is-valid');

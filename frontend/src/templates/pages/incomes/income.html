@@ -1,34 +1,6 @@
 <div class="income">
 	<h1 class="income-title big-title">Доходы</h1>
 	<div class="card-wrapper">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Депозиты</h5>
-				<a href="#" class="btn btn-primary">Редактировать</a>
-				<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</a>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Зарплата</h5>
-				<a href="#" class="btn btn-primary">Редактировать</a>
-				<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</a>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Сбережения</h5>
-				<a href="#" class="btn btn-primary">Редактировать</a>
-				<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</a>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Инвестиции</h5>
-				<a href="#" class="btn btn-primary">Редактировать</a>
-				<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</a>
-			</div>
-		</div>
 		<div class="card card-plus">
 			<a href="/income/create" class="card-plus-link">
 				<svg xmlns="http://www.w3.org/2000/svg" class="bi bi-plus card-plus-icon" viewBox="0 0 16 16">
@@ -39,19 +11,15 @@
 	</div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-wrapper">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>Вы действительно хотите удалить категорию?</p>
-					<p>Связанные доходы будут удалены навсегда.</p>
-				</div>
-				<div class="modal-buttons">
-					<button type="button" class="btn btn-success mr12" data-bs-dismiss="modal">Да, удалить</button>
-					<button type="button" class="btn btn-danger">Не удалять</button>
-				</div>
-			</div>
+<div class="modal-wrapper" id="modal-delete">
+	<div class="modal-content">
+		<div class="modal-body">
+			<p>Вы действительно хотите удалить категорию?</p>
+			<p>Связанные доходы будут удалены навсегда.</p>
+		</div>
+		<div class="modal-buttons">
+			<a class="btn btn-success mr12" id="confirmDeleteButton" href="">Да, удалить</a>
+			<a class="btn btn-danger" id="cancelDeleteButton" href="javascript:void(0)">Не удалять</a>
 		</div>
 	</div>
 </div>

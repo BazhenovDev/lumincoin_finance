@@ -1,30 +1,30 @@
 <div class="operations">
 	<h1 class="big-title operations-title">Доходы и расходы</h1>
 	<div class="operations-actions">
-		<a href="/operations/create" class="btn btn-success edit-btn" id="create-income">Создать доход</a>
-		<a href="/operations/create" class="btn btn-danger edit-btn" id="create-expense">Создать расход</a>
+		<a href="/operations/create?category=income" class="btn btn-success edit-btn" id="create-income">Создать доход</a>
+		<a href="/operations/create?category=expense" class="btn btn-danger edit-btn" id="create-expense">Создать расход</a>
 	</div>
 	<div class="operations-nav navigate">
 		<ul class="nav nav-pills nav-date">
 			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">Сегодня</a>
+				<a class="nav-link" href="/operations?period=today">Сегодня</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Неделя</a>
+				<a class="nav-link" href="/operations?period=week">Неделя</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Месяц</a>
+				<a class="nav-link" href="/operations?period=month">Месяц</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Все</a>
+				<a class="nav-link" href="/operations?period=all">Все</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Интервал</a>
+				<a class="nav-link" id="period-interval" href="/operations?period=interval">Интервал</a>
 			</li>
 		</ul>
-		<div class="nav-input">
-			<span class="nav-input-text">С</span><input type="date" class="nav-input-date">
-			<span class="nav-input-text">по</span><input type="date" class="nav-input-date">
+		<div class="nav-input" id="date-elements">
+			<span class="nav-input-text">С</span> <input type="date" class="nav-input-date" id="date-from">
+			<span class="nav-input-text">по</span> <input type="date" class="nav-input-date" id="date-to">
 		</div>
 	</div>
 
@@ -41,61 +41,20 @@
 				<th class="table-title" scope="col"></th>
 			</tr>
 			</thead>
-			<tbody>
-			<tr>
-				<td data-label="№ операции:" class="table-number">1</td>
-				<td data-label="Тип:" class="table-income table-label">Доход</td>
-				<td data-label="Категория:" class="table-label">Зарплата</td>
-				<td data-label="Сумма:" class="table-label">500 $</td>
-				<td data-label="Дата:" class="table-label">11.09.2022</td>
-				<td data-label="Комментарий:" class="table-label">Комментарий...</td>
-				<td class="table-icons">
-					<a class="table-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" href="/delete?id=">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-trash3" viewBox="0 0 16 16">
-							<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-						</svg>
-					</a>
-					<a class="table-icon" href="/operations/edit?="><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-pencil" viewBox="0 0 16 16">
-						<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-					</svg></a>
-				</td>
-			</tr>
-			<tr>
-				<td data-label="№ операции:" class="table-number">2</td>
-				<td data-label="Тип:" class="table-expenses table-label">Расход</td>
-				<td data-label="Категория:" class="table-label">Жильё</td>
-				<td data-label="Сумма:" class="table-label">2500 $</td>
-				<td data-label="Дата:" class="table-label">12.09.2022</td>
-				<td data-label="Комментарий:" class="table-label">Комментарий...</td>
-				<td class="table-icons">
-					<a class="table-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" href="/delete?id=">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							 class="bi bi-trash3" viewBox="0 0 16 16">
-							<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-						</svg>
-					</a>
-					<a class="table-icon" href="/operations/edit?="><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-pencil" viewBox="0 0 16 16">
-						<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-					</svg></a></td>
-			</tr>
-
+			<tbody id='table-body'>
 			</tbody>
 		</table>
 	</div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-wrapper">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>Вы действительно хотите удалить операцию?</p>
-				</div>
-				<div class="modal-buttons">
-					<button type="button" class="btn btn-success mr12" data-bs-dismiss="modal">Да, удалить</button>
-					<button type="button" class="btn btn-danger">Не удалять</button>
-				</div>
-			</div>
+<div class="modal-wrapper" id="modal-delete">
+	<div class="modal-content">
+		<div class="modal-body">
+			<p>Вы действительно хотите удалить операцию?</p>
+		</div>
+		<div class="modal-buttons">
+			<a class="btn btn-success mr12" id="confirmDeleteButton" href="">Да, удалить</a>
+			<a class="btn btn-danger" id="cancelDeleteButton" href="javascript:void(0)">Не удалять</a>
 		</div>
 	</div>
 </div>
